@@ -13,7 +13,11 @@ import java.util.Date;
 
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matcher;
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Assert;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
@@ -22,10 +26,14 @@ import org.junit.rules.ExpectedException;
 import br.ce.wcaquino.entidades.Filme;
 import br.ce.wcaquino.entidades.Locacao;
 import br.ce.wcaquino.entidades.Usuario;
+import br.ce.wcaquino.exceptions.FilmeSemEstoqueException;
+import br.ce.wcaquino.exceptions.LocadoraException;
 import br.ce.wcaquino.servicos.LocacaoService;
 import br.ce.wcaquino.utils.DataUtils;
 
 public class LocacaoServiceTest {
+		
+	private LocacaoService service;
 	
 	
 	// ajuda a encontrar vários erros ao mesmo tempo.
@@ -35,11 +43,17 @@ public class LocacaoServiceTest {
 	@Rule
 	public ExpectedException exception = ExpectedException.none();
 	
+	@Before
+	public void setup() {
+		
+		 service = new LocacaoService();
+	}
+	
+	
 	@Test
 	public void testeLocacao() throws Exception {
 		//cenario
 		
-		LocacaoService service = new LocacaoService();
 		Usuario usuario = new Usuario("Usuario 1");
 		Filme filme = new Filme("Filme 1", 2, 5.0);
 		
@@ -47,14 +61,14 @@ public class LocacaoServiceTest {
 		
 		Locacao locacao = service.alugarFilme(usuario, filme);
 			
-		// verifição
-			error.checkThat(locacao.getValor(), is(equalTo(5.0)));
-			error.checkThat(isMesmaData(locacao.getDataLocacao(), new Date()), is(true));
-			error.checkThat(isMesmaData(locacao.getDataRetorno(), obterDataComDiferencaDias(1)), is(true));
+		// verificacao
+		error.checkThat(locacao.getValor(), is(equalTo(5.0)));
+		error.checkThat(isMesmaData(locacao.getDataLocacao(), new Date()), is(true));
+		error.checkThat(isMesmaData(locacao.getDataRetorno(), obterDataComDiferencaDias(1)), is(true));
 		
 		}
 		
-		//verificao
+		//verificacao
 		
 		/** 
 		 *
@@ -65,11 +79,11 @@ public class LocacaoServiceTest {
 		*/
 
 
-	@Test(expected=Exception.class)
+	@Test(expected = FilmeSemEstoqueException.class)
+	//(FORMA ELEGANTE) DE REALIZAR OS TESTES
 	public void testLocacao_filmeSemEstoque() throws Exception {
 		//cenario
 		
-		LocacaoService service = new LocacaoService();
 		Usuario usuario = new Usuario("Usuario 1");
 		Filme filme = new Filme("Filme 1", 0, 5.0);
 				
@@ -80,48 +94,39 @@ public class LocacaoServiceTest {
 	}
 	
 	@Test
-	public void testLocacao_filmeSemEstoque_2() {
+	//(FORMA ROUBUSTA) DE REALIZAR OS TESTES
+	public void testeLocacao_usuarioVazio() throws FilmeSemEstoqueException {
 		//cenario
+
+		Filme filme = new Filme("Filme 1", 1, 5.0);
 		
-		LocacaoService service = new LocacaoService();
-		Usuario usuario = new Usuario("Usuario 1");
-		Filme filme = new Filme("Filme 1", 0, 5.0);
-				
 		//acao
-				
+		
 		try {
-			service.alugarFilme(usuario, filme);
-			Assert.fail("Deveria ter lancado uma excecao");
-		} catch (Exception e) {
-			Assert.assertThat(e.getMessage(), is("Filme sem estoque"));
+			service.alugarFilme(null, filme);
+			Assert.fail();
+		}catch (LocadoraException e) {
+			assertThat(e.getMessage(), is("Usuario vazio"));
 		}
+		System.out.println("Forma robusta");
 		
 	}
 	
 	@Test
-	public void testLocacao_filmeSemEstoque_3() throws Exception {
+	//(FORMA NOVA) DE REALIZAR OS TESTES ** ESTÁ É A FORMA MAIS RECOMENDADA
+	public void testLocacao_FilmeVazio () throws FilmeSemEstoqueException, LocadoraException {
 		//cenario
 		
-		LocacaoService service = new LocacaoService();
+
 		Usuario usuario = new Usuario("Usuario 1");
-		Filme filme = new Filme("Filme 1", 0, 5.0);
-				
-		
-		// necessario ficar antes da acao, dentro do cenario, para que o junit veja.
-		exception.expect(Exception.class);
-		exception.expectMessage("Filme sem estoque");
-		
+
+		exception.expect(LocadoraException.class);
+		exception.expectMessage("Filme vazio");
 		//acao
-				
-		service.alugarFilme(usuario, filme);
-		
-		exception.expect(Exception.class);
-		exception.expectMessage("Filme sem estoque");
-		
-	}	
+		service.alugarFilme(usuario, null);
 
-
-
+	}
+	
 }
 
 

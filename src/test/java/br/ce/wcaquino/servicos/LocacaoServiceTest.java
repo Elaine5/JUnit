@@ -53,7 +53,7 @@ public class LocacaoServiceTest {
 	
 	
 	@Test
-	public void testeLocacao() throws Exception {
+	public void alugarFilme() throws Exception {
 		//cenario
 		
 		Usuario usuario = new Usuario("Usuario 1");
@@ -83,21 +83,20 @@ public class LocacaoServiceTest {
 
 	@Test(expected = FilmeSemEstoqueException.class)
 	//(FORMA ELEGANTE) DE REALIZAR OS TESTES
-	public void testLocacao_filmeSemEstoque() throws Exception {
-		//cenario
-		
+	public void lancarExcecaoFilmeSemEstoque() throws Exception {
+				
+		//cenario	
 		Usuario usuario = new Usuario("Usuario 1");
 		List<Filme> filmes = Arrays.asList(new Filme("Filme 1", 0, 4.0));
 				
-		//acao
-				
+		//acao				
 		service.alugarFilme(usuario, filmes);
 		
 	}
 	
 	@Test
 	//(FORMA ROUBUSTA) DE REALIZAR OS TESTES
-	public void testeLocacao_usuarioVazio() throws FilmeSemEstoqueException {
+	public void naoAlugarFilmeSemUsuario() throws FilmeSemEstoqueException {
 		//cenario
 
 		List<Filme> filmes = Arrays.asList(new Filme("Filme 1", 2, 4.0));
@@ -116,7 +115,7 @@ public class LocacaoServiceTest {
 	
 	@Test
 	//(FORMA NOVA) DE REALIZAR OS TESTES ** ESTÁ É A FORMA MAIS RECOMENDADA
-	public void testLocacao_FilmeVazio () throws FilmeSemEstoqueException, LocadoraException {
+	public void naoDeveAlugarFilmeSemFilme () throws FilmeSemEstoqueException, LocadoraException {
 		//cenario
 		
 
@@ -129,6 +128,39 @@ public class LocacaoServiceTest {
 
 	}
 	
+	//ADICIONANDO DESCONTOS 25%
+	@Test
+	public void pagar75PctNoFilme3() throws FilmeSemEstoqueException, LocadoraException {
+		//cenario
+		Usuario usuario = new Usuario("Usuario 1");
+		List<Filme> filmes = Arrays.asList(new Filme("Aventuras", 5, 4.0), new Filme("Sucesso", 5, 4.0), new Filme("Terror", 5, 4.0));
+		
+		//acao
+		Locacao resultado = service.alugarFilme(usuario, filmes);
+		
+		//verificacao
+		//4+4+3=11
+		
+		assertThat(resultado.getValor(), is(11.0));
+		
+	}
+	
+	//ADICIONANDO DESCONTOS 50%
+		@Test
+		public void pagar50PctNoFilme4() throws FilmeSemEstoqueException, LocadoraException {
+			//cenario
+			Usuario usuario = new Usuario("Usuario 1");
+			List<Filme> filmes = Arrays.asList(new Filme("Aventuras", 5, 4.0), new Filme("Sucesso", 5, 4.0), new Filme("Terror", 5, 4.0), new Filme("Comedia", 5, 4.0));
+			
+			//acao
+			Locacao resultado = service.alugarFilme(usuario, filmes);
+			
+			//verificacao
+			//4+4+4+2=14
+			
+			assertThat(resultado.getValor(), is(14.0));
+			
+		}
 }
 
 

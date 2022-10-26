@@ -49,14 +49,17 @@ public class CalculoValorLocacaoTest {
 	private static Filme comedia = new Filme("Comedia", 5, 4.0);
 	private static Filme amor = new Filme("Amor", 5, 4.0);
 	private static Filme amorFinal = new Filme("AmorFinal", 5, 4.0);
+	private static Filme aventurasFinal = new Filme("aventurasFinal", 5, 4.0);
 	
 	@Parameters(name="{2}")
 	public static Collection<Object[]> getParametros(){
 		return Arrays.asList(new Object[][] {
+			{Arrays.asList(aventuras, sucesso), 8.0, "2 Filmes: Sem Desconto"},
 			{Arrays.asList(aventuras, sucesso, terror), 11.0, "3 Filmes: 25%"},
 			{Arrays.asList(aventuras, sucesso, terror, comedia), 13.0, "4 Filmes: 50%"},
 			{Arrays.asList(aventuras, sucesso, terror, comedia, amor), 14.0, "5 Filmes: 75%"},
 			{Arrays.asList(aventuras, sucesso, terror, comedia, amor, amorFinal), 14.0, "6 Filmes: 100%"},
+			{Arrays.asList(aventuras, sucesso, terror, comedia, amor, amorFinal, aventurasFinal), 18.0, "7 Filmes: Sem Desconto"},
 		});
 	}
 	

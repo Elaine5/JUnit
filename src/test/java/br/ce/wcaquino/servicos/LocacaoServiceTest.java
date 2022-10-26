@@ -45,8 +45,6 @@ public class LocacaoServiceTest {
 	
 	@Rule
 	public ExpectedException exception = ExpectedException.none();
-
-	private boolean ehSegunda;
 	
 	@Before
 	public void setup() {
@@ -212,8 +210,9 @@ public class LocacaoServiceTest {
 			Locacao retorno = service.alugarFilme(usuario, filmes);
 						
 			//VERIFICAÇÃO
-			DataUtils.verificarDiaSemana(retorno.getDataLocacao(), Calendar.MONDAY);
+			boolean ehSegunda = DataUtils.verificarDiaSemana(retorno.getDataLocacao(), Calendar.MONDAY);
 			Assert.assertTrue(ehSegunda);
+			// asserttThat(retorno.getDataRetorno(), caiEm(Calendar.MONDAY));
 		}
 }
 

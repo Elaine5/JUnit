@@ -1,5 +1,6 @@
 package br.ce.wcaquino.servicos;
 
+import static br.ce.wcaquino.builders.FilmeBuilder.umFilme;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -43,13 +44,13 @@ public class CalculoValorLocacaoTest {
 		 service = new LocacaoService();
 	}	
 	
-	private static Filme aventuras = new Filme("Aventuras", 5, 4.0);
-	private static Filme sucesso = new Filme("Sucesso", 5, 4.0);
-	private static Filme terror = new Filme("Terror", 5, 4.0);
-	private static Filme comedia = new Filme("Comedia", 5, 4.0);
-	private static Filme amor = new Filme("Amor", 5, 4.0);
-	private static Filme amorFinal = new Filme("AmorFinal", 5, 4.0);
-	private static Filme aventurasFinal = new Filme("aventurasFinal", 5, 4.0);
+	private static Filme aventuras = umFilme().agora();
+	private static Filme sucesso = umFilme().agora();
+	private static Filme terror = umFilme().agora();
+	private static Filme comedia = umFilme().agora();
+	private static Filme amor = umFilme().agora();
+	private static Filme amorFinal = umFilme().agora();
+	private static Filme aventurasFinal = umFilme().agora();
 	
 	@Parameters(name="{2}")
 	public static Collection<Object[]> getParametros(){

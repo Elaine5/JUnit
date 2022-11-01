@@ -1,7 +1,13 @@
 package br.ce.wcaquino.builders;
 
 import br.ce.wcaquino.entidades.Usuario;
+import br.ce.wcaquino.utils.DataUtils;
+
 import java.util.Arrays;
+
+import static br.ce.wcaquino.builders.FilmeBuilder.umFilme;
+import static br.ce.wcaquino.builders.UsuarioBuilder.umUsuaio;
+
 import java.lang.Double;
 import java.util.Date;
 
@@ -24,11 +30,11 @@ public class LocacaoBuilder {
 		Locacao elemento = builder.elemento;
 
 		
-		elemento.setUsuario(null);
-		elemento.setFilmes(null);
-		elemento.setDataLocacao(null);
-		elemento.setDataRetorno(null);
-		elemento.setValor(0.0);
+		elemento.setUsuario(umUsuaio().agora());
+		elemento.setFilmes(Arrays.asList(umFilme().agora()));
+		elemento.setDataLocacao(new Date());
+		elemento.setDataRetorno(DataUtils.obterDataComDiferencaDias(1));
+		elemento.setValor(4.0);
 	}
 
 	public LocacaoBuilder comUsuario(Usuario param) {

@@ -2,6 +2,7 @@ package br.ce.wcaquino.servicos;
  
 
 import static br.ce.wcaquino.builders.FilmeBuilder.umFilme;
+import static br.ce.wcaquino.builders.FilmeBuilder.umFilmeSemEstoque;
 import static br.ce.wcaquino.builders.UsuarioBuilder.umUsuaio;
 import static br.ce.wcaquino.matchers.MatchersProprios.caiEm;
 import static br.ce.wcaquino.matchers.MatchersProprios.caiNumaSegunda;
@@ -34,6 +35,7 @@ import br.ce.wcaquino.entidades.Usuario;
 import br.ce.wcaquino.exceptions.FilmeSemEstoqueException;
 import br.ce.wcaquino.exceptions.LocadoraException;
 import br.ce.wcaquino.utils.DataUtils;
+import buildermaster.BuilderMaster;
 
 public class LocacaoServiceTest {
 		
@@ -57,14 +59,14 @@ public class LocacaoServiceTest {
 		//cenario
 		
 		Usuario usuario = umUsuaio().agora();
-		List<Filme> filmes = Arrays.asList(umFilme().agora());
+		List<Filme> filmes = Arrays.asList(umFilme().comValor(5.0).agora());
 		
 		//acao
 		
 		Locacao locacao = service.alugarFilme(usuario, filmes);
 			
 		// verificacao
-		error.checkThat(locacao.getValor(), is(equalTo(4.0)));
+		error.checkThat(locacao.getValor(), is(equalTo(5.0)));
 		error.checkThat(locacao.getDataRetorno(), ehHojeComDiferencaDias(1));
 		error.checkThat(locacao.getDataLocacao(), ehHoje());
 		
@@ -89,7 +91,7 @@ public class LocacaoServiceTest {
 				
 		//cenario	
 		Usuario usuario = umUsuaio().agora();;
-		List<Filme> filmes = Arrays.asList(umFilme().agora());
+		List<Filme> filmes = Arrays.asList(umFilmeSemEstoque().agora());
 				
 		//acao				
 		service.alugarFilme(usuario, filmes);		
@@ -219,7 +221,9 @@ public class LocacaoServiceTest {
 			// asserttThat(retorno.getDataRetorno(), caiEm(Calendar.MONDAY));
 		}
 
-	
+	public static void main(String[] args) {
+		new BuilderMaster().gerarCodigoClasse(Locacao.class);
+	}
 
 }
 

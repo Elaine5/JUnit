@@ -13,7 +13,6 @@ public class UsuarioBuilder {
 		builder.usuario = new Usuario();
 		builder.usuario.setNome("Usuario 1");
 		return builder;
-				
 	}
 	
 	public Usuario agora() {

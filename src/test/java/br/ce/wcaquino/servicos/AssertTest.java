@@ -12,9 +12,9 @@ public class AssertTest {
 		Assert.assertTrue(true);
 		Assert.assertFalse(false);
 		
-		Assert.assertEquals("Erro de Comparacao", 1, 2);
-		Assert.assertEquals(0.51, 0.51,0.01);
-		Assert.assertEquals(Math.PI, 3.14, 0.01);
+		//Assert.assertEquals("Erro de Comparacao", 1, 2);
+		//Assert.assertEquals(0.51, 0.51,0.01);
+		//Assert.assertEquals(Math.PI, 3.14, 0.01);
 		
 		int i = 5;
 		Integer i2 = 5;
@@ -32,8 +32,8 @@ public class AssertTest {
 		
 		Assert.assertEquals(u1, u2);
 		
-		Assert.assertSame(u1, u2);
-		Assert.assertNotSame(u1, u2);
+		//Assert.assertSame(u1, u2);
+		//Assert.assertNotSame(u1, u2);
 		
 		Assert.assertNull(u3);
 		Assert.assertNotNull(u2);

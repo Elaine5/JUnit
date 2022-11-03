@@ -8,7 +8,7 @@ public class UsuarioBuilder {
 	
 	private UsuarioBuilder() {}
 
-	public static UsuarioBuilder umUsuaio() {
+	public static UsuarioBuilder umUsuario() {
 		UsuarioBuilder builder = new UsuarioBuilder();
 		builder.usuario = new Usuario();
 		builder.usuario.setNome("Usuario 1");

@@ -6,7 +6,7 @@ import br.ce.wcaquino.utils.DataUtils;
 import java.util.Arrays;
 
 import static br.ce.wcaquino.builders.FilmeBuilder.umFilme;
-import static br.ce.wcaquino.builders.UsuarioBuilder.umUsuaio;
+import static br.ce.wcaquino.builders.UsuarioBuilder.umUsuario;
 
 import java.lang.Double;
 import java.util.Date;
@@ -30,7 +30,7 @@ public class LocacaoBuilder {
 		Locacao elemento = builder.elemento;
 
 		
-		elemento.setUsuario(umUsuaio().agora());
+		elemento.setUsuario(umUsuario().agora());
 		elemento.setFilmes(Arrays.asList(umFilme().agora()));
 		elemento.setDataLocacao(new Date());
 		elemento.setDataRetorno(DataUtils.obterDataComDiferencaDias(1));

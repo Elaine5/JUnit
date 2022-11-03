@@ -212,6 +212,7 @@ public class LocacaoServiceTest {
 	public void naoDeveAlugarFilmeParaNegativadoSPC() throws FilmeSemEstoqueException, LocadoraException{
 		//CENÁRIO
 		Usuario usuario = umUsuario().agora();
+		Usuario usuario2 = umUsuario().agora();
 		List<Filme> filmes = Arrays.asList(umFilme().agora());
 		
 		when(spc.possuiNegativacao(usuario)).thenReturn(true);
@@ -220,10 +221,14 @@ public class LocacaoServiceTest {
 		exception.expectMessage("Usuário Negativado");
 		
 		//AÇÃO
-		service.alugarFilme(usuario, filmes);
-		
-		//VERIFICAÇÃO
+		service.alugarFilme(usuario2, filmes);
 	}
+	
+	@Test
+	public void deveEnviarEmailParaLocacoesAtrasadar() {
+		
+	}
+	
 
 	public LocacaoDAO getDao() {
 		return dao;

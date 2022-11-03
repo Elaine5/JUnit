@@ -18,6 +18,7 @@ public class LocacaoService {
 	
 	private LocacaoDAO dao;
 	private SPCService spcService;
+	private EmailService emailService;
 	
 	public Locacao alugarFilme(Usuario usuario, List<Filme> filmes) throws FilmeSemEstoqueException, LocadoraException {
 		
@@ -49,7 +50,7 @@ public class LocacaoService {
 			Filme filme = filmes.get(i);
 			Double valorFilme = filme.getPrecoLocacao();
 			//PODEMOS USAR AO INVÉS DO IF, USAR O SWITHC / CASE.
-			//chamamos esta mudança de REFATORAÇÃO.
+			//CHAMAMOS ESTA MUDANÇA DE REFATORAÇÃO.
 			switch (i) {
 				case 2: valorFilme = valorFilme * 0.75; break;
 				case 3: valorFilme = valorFilme * 0.5; break;
@@ -73,7 +74,7 @@ public class LocacaoService {
 		}
 		locacao.setValor(valorTotal);
 
-		//Entrega no dia seguinte
+		//ENTREGA NO DIA SEGUINTE
 		Date dataEntrega = new Date();
 		dataEntrega = adicionarDias(dataEntrega, 1);
 		if(DataUtils.verificarDiaSemana(dataEntrega, Calendar.SUNDAY)) {
@@ -81,10 +82,17 @@ public class LocacaoService {
 		}
 		locacao.setDataRetorno(dataEntrega);
 		
-		//Salvando a locacao...	
+		//SALVANDO A LOCACAO
 		dao.salvar(locacao);
 		
 		return locacao;
+	}
+	
+	public void nnotificarAtraso() {
+		List<Locacao> locacoes = dao.obterLocacoesPendentes();
+		for(Locacao locacao: locacoes) {
+			emailService.notificarAtraso(locacao.getUsuario());
+		}
 	}
 	
 	public void setLocacaoDAO(LocacaoDAO dao) {
@@ -93,6 +101,10 @@ public class LocacaoService {
 	
 	public void setSPCService(SPCService spc) {
 		spcService = spc;
+	}
+	
+	public void setEmailService(EmailService email) {
+		emailService = email;
 	}
 	
 }

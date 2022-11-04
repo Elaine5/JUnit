@@ -241,12 +241,13 @@ public class LocacaoServiceTest {
 	public void deveEnviarEmailParaLocacoesAtrasadas() {
 		//CENARIO
 		Usuario usuario = umUsuario().agora();
-				List<Locacao> locacoes = Arrays.asList(
-				umLocacao()
-				.comUsuario(usuario)
-				.comDataRetorno(obterDataComDiferencaDias(-2))
-				.agora());
-		Mockito.when(dao.obterLocacoesPendentes()).thenReturn(locacoes);
+		Usuario usuario2 = umUsuario().comNome("Usuário em dia").agora();
+		Usuario usuario3 = umUsuario().comNome("Outro atrasado").agora();
+;				List<Locacao> locacoes = Arrays.asList(
+			umLocacao().atrasado().comUsuario(usuario).agora(),
+			umLocacao().comUsuario(usuario2).agora(),
+			umLocacao().atrasado().comUsuario(usuario3).agora());
+			Mockito.when(dao.obterLocacoesPendentes()).thenReturn(locacoes);
 		
 		//AÇÃO
 		service.notificarAtraso();

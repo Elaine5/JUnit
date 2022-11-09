@@ -49,7 +49,7 @@ public class LocacaoService {
 		Locacao locacao = new Locacao();
 		locacao.setFilmes(filmes);
 		locacao.setUsuario(usuario);
-		locacao.setDataLocacao(new Date());
+		locacao.setDataLocacao(Calendar.getInstance().getTime());
 		Double valorTotal = 0d;
 		for(int i = 0; i < filmes.size(); i++) {
 			Filme filme = filmes.get(i);

@@ -1,12 +1,19 @@
 package br.ce.wcaquino.servicos;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+import org.junit.runners.BlockJUnit4ClassRunner;
 
 import br.ce.wcaquino.exceptions.NaoPodeDividirPorZeroException;
+import br.ce.wcaquino.runners.ParallelRunner;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 
+
+@RunWith(ParallelRunner.class)
 public class CalculadoraTest {
 	
 	private Calculadora calc;
@@ -14,12 +21,17 @@ public class CalculadoraTest {
 	@Before
 	public void setup() {
 		calc = new Calculadora();
+		System.out.println("iniciando...");
+	}
+	
+	@After
+	public void tearDown() {
+		System.out.println("finalizando...");
 	}
 
 	@Test
 	public void deveSomarDoisValores() {
-		//cenario
-		
+		//cenario		
 		int a = 5;
 		int b = 3;
 		
@@ -32,8 +44,7 @@ public class CalculadoraTest {
 	
 	@Test
 	public void deveSubritairTresValores() {
-		//cenario
-		
+		//cenario		
 		int a = 5;
 		int b = 3;
 		int c = 2;
@@ -47,8 +58,7 @@ public class CalculadoraTest {
 	
 	@Test
 	public void deveDividirDoisValores() throws NaoPodeDividirPorZeroException {
-		//cenario
-		
+		//cenario		
 		int a = 10;
 		int b = 2;
 		
